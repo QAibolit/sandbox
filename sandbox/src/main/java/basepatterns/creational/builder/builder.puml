@@ -1,0 +1,90 @@
+@startuml
+hide empty fields
+interface Builder << interface >> #aliceblue;line:blue;  {
+    {abstract} reset()
+    {abstract} buildStepA()
+    {abstract} builtStepB()
+    {abstract} buildStepZ()
+}
+
+note left of Builder
+<b>Интерфейс строителя</b> объявляет шаги
+конструирования продуктов, общие для
+всех видов строителей.
+end note
+
+class ConcreteBuilder1 {
+    result: Product1
+    reset()
+    buildStepA()
+    builtStepB()
+    buildStepZ()
+    getResult(): Product1
+}
+Builder <|.down. ConcreteBuilder1
+
+class ConcreteBuilder2 {
+    result: Product2
+    reset()
+    buildStepA()
+    builtStepB()
+    buildStepZ()
+    getResult(): Product2
+}
+Builder <|.down. ConcreteBuilder2
+
+note left of ConcreteBuilder2
+<b>Конкретные строители</b> реализуют
+строительные шаги, каждый по-своему.
+Конкретные строители могут производить
+разнородные объекты, не имеющие
+общего интерфейса.
+end note
+
+hide empty fields
+hide empty methods
+class Product1
+Product1 <-up- ConcreteBuilder1
+
+hide empty fields
+hide empty methods
+class Product2
+Product2 <-up- ConcreteBuilder2
+
+note left of Product2
+<b>Продукт</b> — создаваемый объект. Продукты,
+сделанные разными строителями, не обязаны
+иметь общий интерфейс.
+end note
+
+class Director {
+    builder: Builder
+    Director(builder)
+    changeBuilder(builder)
+    make(type)
+}
+Builder <-right- Director
+
+note right of Director
+<b>Директор</b> определяет порядок
+вызова строительных шагов для
+производства той или иной
+конфигурации продуктов.
+end note
+
+class Client
+Director <-down- Client
+ConcreteBuilder1 <.right. Client
+
+note right of Client
+Обычно <b>Клиент</b> подаёт в конструктор
+директора уже готовый объект-строитель,
+и в дальнейшем данный директор использует
+только его. Но возможен и другой вариант,
+когда клиент передаёт строителя через
+параметр строительного метода директора.
+В этом случае можно каждый раз применять
+разных строителей для производства
+различных представлений объектов.
+end note
+@enduml

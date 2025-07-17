@@ -1,0 +1,87 @@
+@startuml
+hide empty fields
+interface AbstractFactory << interface >> #aliceblue;line:blue;  {
+    {abstract} createProductA() : ProductA
+    {abstract} createProductB() : ProductB
+}
+
+note as N2
+<b>Абстрактная фабрика<b> объявляет методы создания
+различных абстрактных продуктов (кресло/столик).
+end note
+
+AbstractFactory .up. N2
+
+class ConcreteFactory1 {
+    ...
+    createProductA() : ProductA
+    createProductB() : ProductB
+}
+
+AbstractFactory <|.up. ConcreteFactory1
+
+class ConcreteFactory2 {
+    ...
+    createProductA() : ProductA
+    createProductB() : ProductB
+}
+AbstractFactory <|.down. ConcreteFactory2
+
+note right of ConcreteFactory2
+<b>Конкретные фабрики<b> относятся каждая
+к своей вариации продуктов (Викторианский/Модерн)
+и реализуют методы абстрактной фабрики,
+позволяя создавать все продукты определённой вариации.
+Несмотря на то, что конкретные фабрики порождают
+конкретные продукты, сигнатуры их методов должны
+возвращать соответствующие абстрактные продукты.
+Это позволит клиентскому коду, использующему фабрику,
+не привязываться к конкретным классам продуктов.
+Клиент сможет работать с любыми вариациями продуктов
+через абстрактные интерфейсы.
+end note
+
+class Client {
+    factory : AbstractFactory
+    productA : factory.createProductA()
+    productB : factory.createProductB()
+}
+
+AbstractFactory <|-right- Client
+
+hide empty fields
+hide empty methods
+interface ProductA << interface >> #aliceblue;line:blue;
+interface ProductB << interface >> #aliceblue;line:blue;
+class ConcreteProductA1
+class ConcreteProductB1
+class ConcreteProductA2
+class ConcreteProductB2
+
+ProductA <|.up. ConcreteProductA1
+ProductA <|.down. ConcreteProductA2
+
+ProductB <|.up. ConcreteProductB1
+ProductB <|.down. ConcreteProductB2
+
+ConcreteFactory1 .down.> ConcreteProductA1
+ConcreteFactory1 .down.> ConcreteProductB1
+
+ConcreteFactory2 .up.> ConcreteProductA2
+ConcreteFactory2 .up.> ConcreteProductB2
+
+note as N3
+<b>Абстрактные продукты<b> объявляют интерфейсы
+продуктов,которые связаны друг с другом по смыслу,
+но выполняют разныефункции.
+end note
+
+ProductB -left[dotted]- N3
+
+note left of ConcreteProductB2
+<b>Конкретные продукты<b> — большой набор классов,
+которые относятся к различным абстрактным продуктам
+(кресло/столик), но имеют одни и те же вариации
+(Викторианский/Модерн).
+end note
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+hide empty fields
+interface Prototype << interface >> #aliceblue;line:blue; {
+    {abstract} clone(): Prototype
+}
+
+note right of Prototype
+<b>Интерфейс прототипов</b> описывает операции клонирования.
+В большинстве случаев — это единственный метод clone.
+end note
+
+class ConcretePrototype {
+    field1
+    ConcretePrototype(prototype)
+    clone(): Prototype
+}
+Prototype <|.down. ConcretePrototype
+
+note left of ConcretePrototype::ConcretePrototype
+this.field1 = prototype.field1;
+end note
+
+note left of ConcretePrototype::clone
+return new ConcretePrototype(this));
+end note
+
+note right of ConcretePrototype
+<b>Конкретный прототип</b> реализует операцию клонирования
+самого себя. Помимо банального копирования значений всех полей,
+здесь могут быть спрятаны различные сложности, о которых
+не нужно знать клиенту. Например, клонирование связанных объектов,
+распутывание рекурсивных зависимостей и прочее.
+end note
+
+class SubclassPrototype {
+    field2
+    SubclassPrototype(prototype)
+    clone(): Prototype
+}
+ConcretePrototype <|.down. SubclassPrototype
+
+note left of SubclassPrototype::SubclassPrototype
+super((prototype);
+this.field2 = prototype.field2;
+end note
+
+note left of SubclassPrototype::clone
+return new SubclassPrototype(this);
+end note
+
+hide empty fields
+hide empty methods
+class Client
+Prototype <-left- Client
+
+note left of Client
+copy = existing.clone();
+end note
+
+note top of Client
+<b>Клиент</b> создаёт копию объекта, обращаясь к нему через
+общий интерфейс прототипов.
+end note
+@enduml
