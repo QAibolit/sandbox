@@ -20,7 +20,7 @@ package basepatterns.creational.simplefactory;
  * <br>&emsp;2. Не подходит для ситуаций, когда нужно создавать объекты разных семейств,
  * для этого лучше использовать абстрактную фабрику.
  */
-public class MyClass {
+public class SimpleFactory {
 
     public static void main(String[] args) {
         Shape shape1 = ShapeFactory.getShape(ShapeType.CIRCLE);

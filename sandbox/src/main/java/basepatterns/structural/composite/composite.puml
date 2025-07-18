@@ -1,0 +1,73 @@
+@startuml
+hide empty fields
+interface Component << interface >> #aliceblue;line:blue;  {
+    {abstract} execute()
+}
+
+hide empty fields
+hide empty methods
+class Client
+Client -down-> Component
+
+class Composite {
+    children: Component[]
+    add(c: Component)
+    remove(c: Component)
+    getChildren(): Component[]
+    execute()
+}
+Composite o-up-> Component
+
+class Leaf {
+    ...
+    execute()
+}
+Leaf .left.|> Component
+Composite ..|> Component
+
+note left of Component
+<b>Компонент</b> определяет общий
+интерфейс для простых и составных
+компонентов дерева.
+end note
+
+note right of Client
+<b>Клиент</b> работает с деревом
+через общий интерфейс компонентов.
+Благодаря этому, клиенту не важно,
+что перед ним находится- простой
+или составной компонент дерева.
+end note
+
+note left of Composite
+<b>Контейнер</b> (или композит) - это
+составной компонент дерева.Он содержит
+набор дочерних компонентов, но ничего не
+знает об их типах. Это могут быть как
+простые омпоненты-листья, так и другие
+компонты-контейнеры. Но это не является
+проблемой если все дочерние компоненты
+следуют единому интерфейсу.
+Методы контейнера переадресуют основную
+работу своим дочерним компонетам, хотя
+и могут добавлять что-то свое к результату.
+end note
+
+note as N1
+Совершить операцию самостоятельно
+end note
+N1 .left.> Leaf
+
+note bottom of Composite
+Делегировать работу дочерним компонетам
+end note
+
+note bottom of Leaf
+<b>Лист</b> - это простой компонент дерева,
+не имеющий ответвлений. Из-за того, что им
+некому больше передавать выполнение, классы
+листьев будут содержать большую часть полезного
+кода.
+end note
+
+@enduml

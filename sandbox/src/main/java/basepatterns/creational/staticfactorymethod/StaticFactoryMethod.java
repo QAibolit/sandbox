@@ -21,20 +21,20 @@ package basepatterns.creational.staticfactorymethod;
  * которые создают объекты класса {@code MyClass}. Они предоставляют более удобный способ создания объектов,
  * чем использование конструктора напрямую, особенно если есть разные варианты инициализации
  */
-public class MyClass {
+public class StaticFactoryMethod {
 
     private String data;
 
-    private MyClass(String data) {
+    private StaticFactoryMethod(String data) {
         this.data = data;
     }
 
-    public static MyClass createFromString(String data) {
-        return new MyClass(data);
+    public static StaticFactoryMethod createFromString(String data) {
+        return new StaticFactoryMethod(data);
     }
 
-    public static MyClass createFromInteger(int number) {
-        return new MyClass(String.valueOf(number));
+    public static StaticFactoryMethod createFromInteger(int number) {
+        return new StaticFactoryMethod(String.valueOf(number));
     }
 
     public String getData() {
@@ -42,8 +42,8 @@ public class MyClass {
     }
 
     public static void main(String[] args) {
-        MyClass obj1 = MyClass.createFromString("test");
-        MyClass obj2 = MyClass.createFromInteger(123);
+        StaticFactoryMethod obj1 = StaticFactoryMethod.createFromString("test");
+        StaticFactoryMethod obj2 = StaticFactoryMethod.createFromInteger(123);
 
         System.out.println(obj1.getData());
         System.out.println(obj2.getData());

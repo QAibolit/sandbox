@@ -24,7 +24,7 @@ package basepatterns.creational.factorymethod;
  * <br><b>Снижение связности:</b>
  * <br>Позволяет создавать объекты, не зная их конкретных типов, что упрощает поддержку и расширение кода.
  */
-public class MyClass {
+public class FactoryMethod {
 
     public static void main(String[] args) {
         Department itDepartment = new ItDepartment();

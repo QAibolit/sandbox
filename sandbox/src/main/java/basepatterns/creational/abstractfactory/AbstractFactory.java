@@ -43,7 +43,7 @@ package basepatterns.creational.abstractfactory;
  * <br>&emsp;- Когда требуется изолировать создание объектов от клиентского кода.
  * <br>&emsp;- Когда требуется упростить добавление новых семейств продуктов.
  */
-public class MyClass {
+public class AbstractFactory {
     public static void main(String[] args) {
         CarsFactory dodgeFactory = new DodgeFactory();
         Suv dodgeSuv = dodgeFactory.createSuv();

@@ -27,7 +27,7 @@ import java.util.Map;
  * <br><b>Недостатки:</b>
  * <br>&emsp;- Сложно клонировать составные объекты, имеющие ссылки на другие объекты.
  */
-public class MyClass {
+public class PrototypePattern {
 
     public static void main(String[] args) {
         // Создаем оригинальный профиль

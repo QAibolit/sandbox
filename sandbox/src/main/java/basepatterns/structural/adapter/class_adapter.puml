@@ -1,0 +1,37 @@
+@startuml
+class Adapter {
+    ...
+    method(data)
+}
+
+class "Existing class" {
+    ...
+    method(data)
+}
+
+class Service {
+    ...
+    serviceMethod(specialData)
+}
+
+hide empty fields
+hide empty methods
+class Client
+
+Client -left-> "Existing class"
+Adapter .up.|> "Existing class"
+Adapter .up.|> Service
+
+note left of Adapter::method
+specialData = convertToServiceFormat(data);
+<b>return</b> adaptee.serviceMethod(specialData);
+end note
+
+note right of Adapter
+Адаптер классов не нуждается
+во вложенном объекте, так как
+он может дновременно наследовать
+и часть существующего класса, и
+часть сервиса.
+end note
+@enduml

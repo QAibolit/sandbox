@@ -1,0 +1,72 @@
+@startuml
+hide empty fields
+interface "Client interface" << interface >> #aliceblue;line:blue;  {
+    {abstract} method(data)
+}
+
+hide empty fields
+hide empty methods
+class Client
+Client -down-> "Client interface"
+
+class Adapter {
+    adaptee: Service
+    method(data)
+}
+Adapter .up.|> "Client interface"
+
+class Service {
+    ...
+    serviceMethod(specialData)
+}
+Adapter -right-> Service
+
+note left of Adapter::method
+specialData = convertToServiceFormat(data);
+<b>return</b> adaptee.serviceMethod(specialData);
+end note
+
+note left of Client
+<b>Клиент</b> - это класс,
+который содержит
+существующую
+бизнес-логику
+программы
+end note
+
+note top of "Client interface"
+<b>Клиентский интерфейс</b>
+описывает протокол, через
+который клиент может работать
+с другими классами
+end note
+
+note top of Service
+<b>Сервис</b> - это какой-то
+полезный класс, обычно сторонний.
+Клиент не может использовать этот
+класс напрямую, так как сервис имеет
+непонятный ему интерфейс.
+end note
+
+note bottom of Adapter
+<b>Адаптер</b> - это класс, который может
+одновременно работать и с клиентом, и с сервисом.
+Он реализует клиентский интерфейс и содержит ссылку
+на объект сервиса. Адаптер получает вызовы от клиента
+через методы клиентского интерфейса, а затем переводит
+их в вызовы методов обернутого объекта в правильном
+фоормате
+end note
+
+note top of Adapter
+Работая с адаптером через интерфейс
+клиент не привязывается к конкретному
+классу адаптера. Благодаря этому, вы можете
+добавлять в программу новые виды адаптеров,
+независимо от лиентского кода. Это может
+пригодиться, если интерфейс сервиса вдруг
+изменится, например, после выхода новой
+версии сторонней библиотеки.
+end note
+@enduml

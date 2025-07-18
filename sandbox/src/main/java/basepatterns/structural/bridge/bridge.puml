@@ -1,0 +1,85 @@
+@startuml
+hide empty fields
+interface Implementation << interface >> #aliceblue;line:blue;  {
+    {abstract} method1()
+    {abstract} method2()
+    {abstract} method3()
+}
+
+hide empty fields
+hide empty methods
+class Client
+
+class Abstraction << abstract >>{
+    i: Implementation
+    feature1()
+    feature2()
+}
+Client -down-> Abstraction
+
+class RefindAbstraction {
+    ...
+    feature1()
+    feature2()
+    featureN()
+}
+
+RefindAbstraction .up.|> Abstraction
+Abstraction o-right-> Implementation
+
+class "Concrete Implementation"
+"Concrete Implementation" .up.|> Implementation
+
+note top of Client
+<b>Клиент</b> работает только с объектами абстракции.
+Не считая начального связывания абстрации с одной
+из реализаций, клиентский код е имеет прямого доступа
+к объектам реализаций.
+end note
+
+note left of Client
+abstraction.feature1();
+end note
+
+note as N1
+<b>Абстракция</b> содержит управляющую
+логику. Код абстракции делегирует реальную
+работусвязанному объекту реализации.
+end note
+
+N1 .[dotted].> Abstraction
+
+note left of Abstraction::feature1
+i.method1();
+end note
+
+note left of Abstraction::feature2
+i.method2();
+i.method3();
+end note
+
+note left of RefindAbstraction
+<b>Расширенные абстракции</b> содержат различные
+вариации управляющей логики. Как и родитель,
+работает с реализациями только через общий
+интерфейс реализации.
+end note
+
+note right of "Concrete Implementation"
+<b>Конкретные реализации</b> содержат
+платформо-зависимый код.
+end note
+
+note right of Implementation
+<b>Реализация</b> задает интерфейс
+для всех реализаций. Все методы,
+которые здесь описаны будут доступны
+из класса абстракции и его подклассов.
+Интерфейсы абстракциии реализации
+могут как совпадать так и быть
+совершенно различными. Но обычно в
+реализации живут базовые операции,
+на которых строятся сложные операции
+абстракций
+end note
+@enduml
